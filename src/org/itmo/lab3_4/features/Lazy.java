@@ -5,6 +5,8 @@ import org.itmo.lab3_4.actions.Tell;
 import org.itmo.lab3_4.actions.TypeOfAction;
 import org.itmo.lab3_4.Human;
 
+import java.util.ArrayList;
+
 
 public class Lazy extends Feature implements Priorities {
     public Lazy(Human human) {
@@ -14,14 +16,14 @@ public class Lazy extends Feature implements Priorities {
     public void update() {
     }
 
-    public Action selectAction(Action[] actions) {
-        Action action = actions[0];
+    public Action selectAction(ArrayList<Action> actions) {
+        Action action = actions.get(0);
         int val = importance(action.type);
-        for (int i = 1; i < actions.length; i++) {
-            int val_i = importance(actions[i].type);
-            if (val_i > val) {
-                action = actions[i];
-                val = val_i;
+        for (Action localAction : actions) {
+            int localVal = importance(localAction.type);
+            if (localVal > val) {
+                action = localAction;
+                val = localVal;
             }
         }
         return action;

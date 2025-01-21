@@ -10,6 +10,6 @@ public interface Place {
     }
 
     default void pop(Located located) {
-        World.popLocated(this, located);
+        World.removeLocated(this, located);
     }
 }

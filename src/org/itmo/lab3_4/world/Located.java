@@ -6,7 +6,7 @@ import org.itmo.lab3_4.world.World;
 
 public interface Located {
     default public void move(Place place) {
-        World.popLocated(World.getPlace(this), this);
+        World.removeLocated(World.getPlace(this), this);
         World.addLocated(place, this);
     }
 

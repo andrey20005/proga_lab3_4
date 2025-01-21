@@ -7,17 +7,19 @@ import org.itmo.lab3_4.world.Located;
 import org.itmo.lab3_4.features.Feature;
 import org.itmo.lab3_4.features.Priorities;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 
 public class Human implements Located, Place {
     public String name;
     public Action action;
-    public Action[] actionsToChoose = new Action[0];
-    public State[] states = new State[0];
-    public Feature[] features = new Feature[0];
+    public ArrayList<Action> actionsToChoose = new ArrayList<Action>();
+    public ArrayList<State> states = new ArrayList<State>();
+    public ArrayList<Feature> features = new ArrayList<Feature>();
 
     public Human(String name) {
         this.name = name;
-        this.features = new Feature[0];
     }
 
     public void updateStates() {
@@ -27,9 +29,6 @@ public class Human implements Located, Place {
     }
 
     public void updateFeatures() throws ExceptionOfHavingOnePrioritie {
-        for (Feature value : features) {
-            value.update();
-        }
         int countOfPriorities = 0;
         for (Feature feature : features) {
             if (feature instanceof Priorities) {
@@ -39,12 +38,14 @@ public class Human implements Located, Place {
         if (countOfPriorities != 1) {
             throw new ExceptionOfHavingOnePrioritie("You need have only one Priorities");
         }
+        for (Feature value : features) {
+            value.update();
+        }
     }
 
     public void doAction() {
         for (Feature feature : features) {
-            if (feature instanceof Priorities) {
-                Priorities priorities = (Priorities) feature;
+            if (feature instanceof Priorities priorities) {
                 action = priorities.selectAction(actionsToChoose);
             }
         }
@@ -53,66 +54,38 @@ public class Human implements Located, Place {
     }
 
     public void addAction(Action action) {
-        Action[] newActions = new Action[actionsToChoose.length + 1];
-        for (int i = 0; i < actionsToChoose.length; i++) {
-            newActions[i] = actionsToChoose[i];
-        }
-        newActions[actionsToChoose.length] = action;
-        actionsToChoose = newActions;
+        actionsToChoose.add(action);
     }
 
     public void addState(State state) {
-        State[] newStates = new State[states.length + 1];
-        for (int i = 0; i < states.length; i++) {
-            newStates[i] = states[i];
-        }
-        newStates[states.length] = state;
-        states = newStates;
+        states.add(state);
     }
 
     public void addFeature(Feature feature) {
-        Feature[] newFeatures = new Feature[features.length + 1];
-        for (int i = 0; i < features.length; i++) {
-            newFeatures[i] = features[i];
-        }
-        newFeatures[features.length] = feature;
-        features = newFeatures;
+        features.add(feature);
     }
 
-    public void popState(State state) {
-        State[] newStates = new State[states.length - 1];
-        int shift = 0;
-        for (int i = 0; i < states.length - 1; i++) {
-            if (states[i + shift] == state) {
-                shift = 1;
-            } else {
-                newStates[i] = states[i + shift];
-            }
-        }
-        states = newStates;
+    public void removeState(State state) {
+        states.remove(state);
     }
 
-    public void popFeature(Feature feature) {
-        Feature[] newFeatures = new Feature[features.length - 1];
-        int shift = 0;
-        for (int i = 0; i < features.length - 1; i++) {
-            if (features[i + shift] == feature) {
-                shift = 1;
-            } else {
-                newFeatures[i] = features[i + shift];
-            }
-        }
-        features = newFeatures;
+    public void removeFeature(Feature feature) {
+        features.remove(feature);
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof Human) {
-            Human human = (Human) object;
+        if (object instanceof Human human) {
             if (this == human) return true;
-            if (human.name == this.name && human.features.equals(this.features)) return true;
+            if (Objects.equals(human.name, this.name) && human.features.equals(this.features)) return true;
+            if (human.hashCode() == this.hashCode()) return true;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (name.hashCode() % (2 ^ 16) + ((features.hashCode() % (2 ^ 16)) * 2^16));
     }
 
     @Override

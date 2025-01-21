@@ -5,25 +5,22 @@ import org.itmo.lab3_4.world.World;
 import org.itmo.lab3_4.world.Located;
 import org.itmo.lab3_4.Human;
 
+import java.util.ArrayList;
+
 
 public class House implements Place, Located {
-    private Human[] residents;
+    private ArrayList<Human> residents;
 
     public House() {
         World.addPlace(this);
-        residents = new Human[0];
+        ArrayList<Human> residents = new ArrayList<Human>();
     }
 
     public void addResident(Human human) {
-        Human[] newResidents = new Human[residents.length + 1];
-        for (int i = 0; i < residents.length; i++) {
-            newResidents[i] = residents[i];
-        }
-        newResidents[residents.length] = human;
-        residents = newResidents;
+        residents.add(human);
     }
 
-    public Human[] getResident() {
+    public ArrayList<Human> getResidents() {
         return residents;
     }
 }
