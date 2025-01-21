@@ -85,7 +85,7 @@ public class Human implements Located, Place {
 
     @Override
     public int hashCode() {
-        return (name.hashCode() % (2 ^ 16) + ((features.hashCode() % (2 ^ 16)) * 2^16));
+        return (name.hashCode() % (2 ^ 16) + ((features.hashCode() % (2 ^ 16)) * 2 ^ 16));
     }
 
     @Override
