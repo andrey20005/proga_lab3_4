@@ -1,10 +1,9 @@
 package org.itmo.lab3_4;
 
-import org.itmo.lab3_4.Human;
 import org.itmo.lab3_4.features.*;
 
 public class SimulationInitializer {
-    public static void main(String[] args) throws ExceptionOfHavingOnePrioritie {
+    public static void main(String[] args) throws UnityOfPriorityException {
         Simulation simulation = new Simulation();
 
         Human pilulkin = new Human("Пилюлькин");

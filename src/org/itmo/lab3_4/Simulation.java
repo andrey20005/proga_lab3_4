@@ -1,7 +1,6 @@
 package org.itmo.lab3_4;
 
 
-import org.itmo.lab3_4.Human;
 import org.itmo.lab3_4.actions.Action;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class Simulation {
         humans.add(human);
     }
 
-    public void goSimulationStep() throws ExceptionOfHavingOnePrioritie {
+    public void goSimulationStep() throws UnityOfPriorityException {
         for (Human human : humans) {
             human.actionsToChoose = new ArrayList<Action>();
             human.updateFeatures();

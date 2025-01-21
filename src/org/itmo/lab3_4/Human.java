@@ -28,7 +28,7 @@ public class Human implements Located, Place {
         }
     }
 
-    public void updateFeatures() throws ExceptionOfHavingOnePrioritie {
+    public void updateFeatures() throws UnityOfPriorityException {
         int countOfPriorities = 0;
         for (Feature feature : features) {
             if (feature instanceof Priorities) {
@@ -36,7 +36,7 @@ public class Human implements Located, Place {
             }
         }
         if (countOfPriorities != 1) {
-            throw new ExceptionOfHavingOnePrioritie("You need have only one Priorities");
+            throw new UnityOfPriorityException(this, countOfPriorities);
         }
         for (Feature value : features) {
             value.update();
